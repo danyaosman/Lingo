@@ -11,6 +11,8 @@ data class Users(
     val password: String
 )
 data class Question(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int=1,
     val question: String,
     val options: List<String>,
     val answer: String
