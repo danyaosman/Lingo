@@ -93,8 +93,14 @@ fun LoginScreen(loginViewModel: LoginViewModel, navController: NavHostController
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = {},
-            modifier = Modifier
+            onClick = {
+                // Save the input values to the ViewModel
+                loginViewModel.username.value = username
+                loginViewModel.password.value = password
+                // Navigate to the Home screen
+                navController.navigate("Home")
+            },
+                modifier = Modifier
                 .height(70.dp)
                 .fillMaxWidth()
                 .padding(vertical = 7.dp, horizontal = 17.dp)
