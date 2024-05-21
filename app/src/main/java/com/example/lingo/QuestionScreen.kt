@@ -28,6 +28,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.runtime.*
 
 import androidx.compose.ui.unit.sp
+import com.example.lingo.room.Question
 
 @Composable
 fun MovieDetails(
