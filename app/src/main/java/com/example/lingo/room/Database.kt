@@ -3,8 +3,8 @@ package com.example.lingo.room
 import androidx.room.PrimaryKey
 import androidx.room.Entity
 
-@Entity
-data class Users(
+@Entity(tableName="users_table")
+data class User(
     @PrimaryKey(autoGenerate = true)
     val id: Int=1,
     val username: String,
@@ -18,7 +18,7 @@ data class Question(
     val answer: String
 )
 
-@Entity
+@Entity(tableName = "level_questions")
 data class QuestionList(
     @PrimaryKey(autoGenerate = true)
     val id: Int=1,
@@ -26,19 +26,17 @@ data class QuestionList(
     val levelId: Int
 )
 
-@Entity
+@Entity(tableName="levels_table")
 data class Level(
     @PrimaryKey(autoGenerate = true)
     val id: Int=1,
-    val questionList: List<QuestionList>,
-    val isCompleted: Boolean,
+    val isCompleted: Boolean=false,
     val courseId: Int
     )
 
-@Entity
+@Entity(tableName = "courses_table")
 data class Course(
     @PrimaryKey(autoGenerate = true)
     val id: Int=1,
     val name: String,
-    val levels: List<Level>
 )
