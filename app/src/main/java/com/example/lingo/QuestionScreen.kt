@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import com.example.lingo.room.Question
 
 @Composable
-fun MovieDetails(
+fun QuestionScreen(
     question: Question,
     questionIndexState: Int
 ) {
@@ -104,10 +104,3 @@ val question = Question(
     id = 1
 )
 
-@Preview(showBackground = true)
-@Composable
-fun QuestionPreview() {
-    LingoTheme {
-        MovieDetails(question,1)
-    }
-}

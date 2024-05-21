@@ -1,5 +1,8 @@
+package com.example.lingo
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,18 +25,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.lingo.R
+import com.example.lingo.ui.theme.Brown
+import com.example.lingo.ui.theme.Green
+import com.example.lingo.ui.theme.LightGray
+import com.example.lingo.ui.theme.Orange
+import com.example.lingo.ui.theme.Yellow
 
-
-val Green = Color(0xFF86A043)
-val Yellow = Color(0xFFFEC868)
-val Orange = Color(0xFFFDA769)
-val Brown = Color(0xFF473C33)
-val LightGray = Color(0xFFD3D3D3)
-
-@Preview
 @Composable
-fun LevelScreen() {
+fun LevelsScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .padding(24.dp)
@@ -100,13 +101,21 @@ fun LevelScreen() {
             LevelItem("Level 4", LightGray, R.drawable.cancel)
         }
 
-        Image(
-            painter = painterResource(id = R.drawable.back_button),
-            contentDescription = null,
+        Box(
             modifier = Modifier
-                .padding(start = 40.dp, top = 50.dp)
-                .align(Alignment.Start)
-        )
+                .size(24.dp)
+                .clickable {
+                    navController.navigate("Login")
+                }
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.back_button),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(start = 40.dp, top = 50.dp)
+            )
+        }
+
     }
 }
 
@@ -144,4 +153,3 @@ fun LevelItem(level: String, color: Color, iconResId: Int) {
         }
     }
 }
-

@@ -2,6 +2,7 @@ package com.example.lingo
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,13 +27,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.lingo.ui.theme.Brown
 import com.example.lingo.ui.theme.Green
 import com.example.lingo.ui.theme.Yellow
 
-@Preview
 @Composable
-fun HomeScreen() {
+fun HomeScreen(loginViewModel: LoginViewModel, navController: NavHostController) {
     Column(
         Modifier
             .padding(24.dp)
@@ -55,7 +57,7 @@ fun HomeScreen() {
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Text(text = "name",
+            Text(text = loginViewModel.username.value,
                 textAlign = TextAlign.End,
                 color = Color.White,
                 modifier= Modifier.padding(10.dp))
@@ -85,7 +87,6 @@ fun HomeScreen() {
             color = Color.White,
             text = "Courses")
 
-
         // Courses List
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -103,6 +104,13 @@ fun HomeScreen() {
             modifier = Modifier
                 .padding(start = 40.dp, top = 50.dp)
                 .align(Alignment.Start)
+                .clickable {
+                    // Perform the logout action
+                    loginViewModel.username.value=""
+
+                    // Navigate back to the login screen
+                    navController.navigate("Login")
+                }
         )
     }
 }
