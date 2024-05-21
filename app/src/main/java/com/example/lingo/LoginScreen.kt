@@ -24,6 +24,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.lingo.ui.theme.Brown
 import com.example.lingo.ui.theme.Green
 import com.example.lingo.ui.theme.Orange
@@ -32,7 +33,7 @@ import com.example.lingo.ui.theme.Yellow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(loginViewModel: LoginViewModel, navController: NavHostController) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -59,11 +60,11 @@ fun LoginScreen() {
             label = { Text("Username") },
             modifier = Modifier.padding(20.dp).fillMaxWidth(),
             shape = RoundedCornerShape(10.dp),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Yellow,
-                unfocusedContainerColor = Yellow,
-                focusedIndicatorColor = Orange,
-                unfocusedIndicatorColor = Color.Gray
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Yellow,
+                focusedIndicatorColor = Color.Yellow,
+                unfocusedIndicatorColor = Color.Gray,
+                cursorColor = Color.Yellow,
             )
         )
 
@@ -81,11 +82,11 @@ fun LoginScreen() {
                 .fillMaxWidth(),
             shape = RoundedCornerShape(10.dp),
 
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Yellow,
-                unfocusedContainerColor = Yellow,
-                focusedIndicatorColor = Orange,
-                unfocusedIndicatorColor = Color.Gray
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Yellow,
+                focusedIndicatorColor = Color.Yellow,
+                unfocusedIndicatorColor = Color.Gray,
+                cursorColor = Color.Yellow,
             )
         )
 
@@ -108,8 +109,3 @@ fun LoginScreen() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen()
-}
