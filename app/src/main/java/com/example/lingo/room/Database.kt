@@ -6,7 +6,7 @@ import androidx.room.Entity
 @Entity
 data class Users(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int=1,
     val username: String,
     val password: String
 )
@@ -19,7 +19,7 @@ data class Question(
 @Entity
 data class QuestionList(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int=1,
     val questions: List<Question>,
     val levelId: Int
 )
@@ -27,7 +27,7 @@ data class QuestionList(
 @Entity
 data class Level(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int=1,
     val questionList: List<QuestionList>,
     val isCompleted: Boolean,
     val courseId: Int
@@ -36,7 +36,7 @@ data class Level(
 @Entity
 data class Course(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int=1,
     val name: String,
     val levels: List<Level>
 )
