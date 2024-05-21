@@ -39,7 +39,7 @@ fun LoginScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(10.dp)
             .background(Green),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -59,11 +59,11 @@ fun LoginScreen() {
             label = { Text("Username") },
             modifier = Modifier.padding(20.dp).fillMaxWidth(),
             shape = RoundedCornerShape(10.dp),
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Yellow,
-                focusedIndicatorColor = Color.Yellow,
-                unfocusedIndicatorColor = Color.Gray,
-                cursorColor = Color.Yellow,
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Yellow,
+                unfocusedContainerColor = Yellow,
+                focusedIndicatorColor = Orange,
+                unfocusedIndicatorColor = Color.Gray
             )
         )
 
@@ -81,11 +81,11 @@ fun LoginScreen() {
                 .fillMaxWidth(),
             shape = RoundedCornerShape(10.dp),
 
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Yellow,
-                focusedIndicatorColor = Color.Yellow,
-                unfocusedIndicatorColor = Color.Gray,
-                cursorColor = Color.Yellow,
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Yellow,
+                unfocusedContainerColor = Yellow,
+                focusedIndicatorColor = Orange,
+                unfocusedIndicatorColor = Color.Gray
             )
         )
 

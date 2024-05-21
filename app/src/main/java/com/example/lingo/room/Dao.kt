@@ -31,6 +31,4 @@ interface LevelDao {
 
     @Query("SELECT * FROM levels_table WHERE courseid = :courseId")
     fun getCourseLevels(courseId:Int):List<Boolean>
-
-
 }

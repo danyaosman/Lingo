@@ -56,6 +56,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.compose.material3:material3-android:1.2.1")
     implementation("androidx.room:room-common:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
     debugImplementation("androidx.compose.ui:ui-tooling:1.6.7")
     implementation("androidx.compose.ui:ui-tooling-preview:1.6.7")
 
