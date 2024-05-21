@@ -21,11 +21,11 @@ fun LingoNavHost(
         composable(route = "Home") {
             HomeScreen()
         }
-        composable (route = "Levels"){
+        /*composable (route = "Levels"){
             LevelsScreen()
         }
         composable (route = "Questions") {
             QuestionsScreen()
-        }
+        }*/
     }
 }
