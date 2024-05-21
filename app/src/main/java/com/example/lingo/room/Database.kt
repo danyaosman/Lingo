@@ -3,16 +3,22 @@ package com.example.lingo.room
 import androidx.room.PrimaryKey
 import androidx.room.Entity
 
-data class Question(
-    @PrimaryKey
+@Entity
+data class Users(
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
+    val username: String,
+    val password: String
+)
+data class Question(
     val question: String,
     val options: List<String>,
     val answer: String
 )
 
-@Entity(tableName="question_list")
+@Entity
 data class QuestionList(
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
     val questions: List<Question>,
     val levelId: Int
@@ -20,6 +26,7 @@ data class QuestionList(
 
 @Entity
 data class Level(
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
     val questionList: List<QuestionList>,
     val isCompleted: Boolean,
@@ -28,6 +35,7 @@ data class Level(
 
 @Entity
 data class Course(
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String,
     val levels: List<Level>
