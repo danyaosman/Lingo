@@ -18,7 +18,6 @@ interface UsersDao {
     @Query("SELECT * FROM users WHERE username=:username")
     fun getUserByName(username:String):User
 }
-
 @Dao
 interface QuestionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -27,7 +26,6 @@ interface QuestionDao {
     @Query("SELECT * FROM questions WHERE courseId=:courseId")
     fun getQuestionsByCourse(courseId: Int):List<Question>
 }
-
 
 @Dao
 interface CourseDao {
@@ -38,8 +36,11 @@ interface CourseDao {
     fun getCourseNames(): List<String>
 
 }
-
 @Dao
 interface UserCoursesDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(userCourses: UserCourses)
 
+    @Query("SELECT name FROM courses")
+    fun getUserCourses(): List<String>
 }

@@ -73,33 +73,36 @@ fun QuestionScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        LazyColumn {
-            items(question.options) { option ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                        .clickable { selectedOption = option },
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    RadioButton(
-                        selected = (selectedOption == option),
-                        onClick = { selectedOption = option }
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = option, style = TextStyle(fontSize = 16.sp))
-                }
-            }
-        }
+//        LazyColumn {
+//            items(question.options) { option ->
+//                Row(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(vertical = 8.dp)
+//                        .clickable { selectedOption = option },
+//                    verticalAlignment = Alignment.CenterVertically
+//                ) {
+//                    RadioButton(
+//                        selected = (selectedOption == option),
+//                        onClick = { selectedOption = option }
+//                    )
+//                    Spacer(modifier = Modifier.width(8.dp))
+//                    Text(text = option, style = TextStyle(fontSize = 16.sp))
+//                }
+//            }
+//        }
 
     }
 }
 
 val question = Question(
     question = "What is your question?",
-    options = listOf("Option 1", "Option 2", "Option 3", "Option 4"),
+    option1 = "Option 1",
+    option2 = "Option 2",
+    option3 = "Option 3",
+    option4 = "Option 4",
     answer = "Option 1",
-    id = 1
+    courseId = 1
 )
 @Preview
 @Composable
