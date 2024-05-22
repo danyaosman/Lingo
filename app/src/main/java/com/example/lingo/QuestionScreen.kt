@@ -26,6 +26,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.RadioButton
 import androidx.compose.runtime.*
+import androidx.compose.ui.tooling.preview.PreviewParameter
 
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
@@ -107,6 +108,5 @@ val question = Question(
 @Preview
 @Composable
 fun QScreenPreview() {
-
     QuestionScreen(question,1)
 }

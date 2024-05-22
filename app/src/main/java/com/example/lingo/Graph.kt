@@ -11,7 +11,7 @@ object Graph {
         Repository(
             usersDao = db.usersDao(),
             levelDao = db.levelDao(),
-            questionsListDao=db.questionListDao()
+            questionDao=db.questionDao()
 
         )
     }

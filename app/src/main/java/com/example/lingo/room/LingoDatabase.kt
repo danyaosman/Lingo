@@ -6,13 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [User::class, QuestionList::class, Level::class, Course::class],
+    entities = [User::class, Question::class, Level::class, Course::class],
     version = 1,
     exportSchema = false
 )
 abstract class LingoDatabase:RoomDatabase () {
     abstract fun usersDao():UsersDao
-    abstract fun questionListDao():QuestionListDao
+    abstract fun questionDao():QuestionDao
     abstract fun levelDao():LevelDao
 
     companion object{
