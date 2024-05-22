@@ -26,10 +26,10 @@ import com.example.lingo.userInterface.QuestionScreen
 )*/
 @Composable
 fun LingoNavHost(
-    navController: NavHostController,
-    modifier: Modifier = Modifier,
     loginViewModel: LoginViewModel = viewModel(),
-    homeViewModel: HomeViewModel = viewModel()
+    homeViewModel: HomeViewModel = viewModel(),
+    navController: NavHostController,
+    modifier: Modifier = Modifier
 ) {
     var startDes by remember { mutableStateOf("Login") }
 

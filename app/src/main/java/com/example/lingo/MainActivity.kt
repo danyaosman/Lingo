@@ -6,15 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import androidx.room.Room
+import com.example.lingo.repository.Repository
 import com.example.lingo.room.LingoDatabase
 import com.example.lingo.ui.theme.LingoTheme
+import com.example.lingo.userInterface.HomeViewModel
 import com.example.lingo.userInterface.LoginViewModel
 import kotlinx.coroutines.Dispatchers
 
@@ -24,27 +21,32 @@ class MainActivity : ComponentActivity() {
         //no singleton design pattern (yet)
         val db = LingoDatabase.getDatabase(context = this)
         // 2. Manual MainViewModel Creation
-        val loginViewModel = LoginViewModel(OfflinePeopleRepository(db.personDao()),
+        val repo = Repository(db.usersDao(), db.questionDao(), db.courseDao(), db.userCoursesDao())
+        val loginViewModel = LoginViewModel(
+            repo,
+            ioDispatcher = Dispatchers.IO)
+        val homeViewModel = HomeViewModel(
+            repo,
             ioDispatcher = Dispatchers.IO)
 
         setContent {
-            RoomFriAfternoonTheme {
+            LingoTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    StartApp(mainViewModel)
+                    LingoNavHost(loginViewModel = loginViewModel, homeViewModel=homeViewModel, navController = rememberNavController())
                 }
             }
         }
     }
 }
-
+/*
 @Preview
 @Composable
 fun MainScreenPreview() {
     val navController = rememberNavController()
 
     LingoNavHost(navController)
-}
+}*/

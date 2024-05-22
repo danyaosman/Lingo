@@ -1,6 +1,5 @@
 package com.example.lingo.room
 
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.room.PrimaryKey
 import androidx.room.Entity
 
@@ -31,11 +30,11 @@ data class Course(
     @PrimaryKey(autoGenerate = true)
     val id: Int=1,
     val name: String,
-    val icon: Painter
 )
 
 @Entity(tableName = "user_courses")
 data class UserCourses(
+    @PrimaryKey
     val userId:Int,
     val courseId: Int
 )

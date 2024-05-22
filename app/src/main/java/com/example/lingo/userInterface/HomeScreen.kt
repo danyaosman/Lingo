@@ -26,7 +26,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.lingo.R
 import com.example.lingo.room.Course
@@ -95,7 +94,8 @@ fun HomeScreen(homeViewModel: HomeViewModel,
             text = "Courses")
 
         // Courses List
-       /* Column(
+        /*
+        Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Course(1, painterResource(id = R.drawable.spain))
@@ -103,7 +103,7 @@ fun HomeScreen(homeViewModel: HomeViewModel,
             CourseItem("Turkish", painterResource(id = R.drawable.turkey))
             CourseItem("Greek", painterResource(id = R.drawable.greece))
             CourseItem("Chinese", painterResource(id = R.drawable.china))
-        }*/
+        */
 
         Image(
             painter = painterResource(id = R.drawable.logout),
@@ -123,7 +123,7 @@ fun HomeScreen(homeViewModel: HomeViewModel,
 }
 
 @Composable
-fun CourseItem(course: Course) {
+fun CourseItem(course: Course, flag: Painter) {
     Button(
         onClick = {},
         modifier = Modifier
@@ -149,7 +149,7 @@ fun CourseItem(course: Course) {
                     .padding(start = 8.dp)
             )
             Image(
-                painter = course.icon,
+                painter = flag,
                 contentDescription = null,
                 modifier = Modifier.size(30.dp)
             )
