@@ -35,8 +35,8 @@ import com.example.lingo.ui.theme.Green
 import com.example.lingo.ui.theme.Yellow
 
 @Composable
-fun HomeScreen(loginViewModel: LoginViewModel,
-               homeViewModel: HomeViewModel,
+fun HomeScreen(homeViewModel: HomeViewModel,
+               loginViewModel: LoginViewModel,
                navController: NavHostController,
                onNavigate: (Int) -> Unit
 ) {

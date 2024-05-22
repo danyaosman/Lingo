@@ -12,22 +12,24 @@ import androidx.navigation.compose.NavHost
 import com.example.lingo.room.Question
 import androidx.compose.runtime.*
 import com.example.lingo.userInterface.HomeScreen
+import com.example.lingo.userInterface.HomeViewModel
 import com.example.lingo.userInterface.LevelsScreen
 import com.example.lingo.userInterface.LoginScreen
 import com.example.lingo.userInterface.LoginViewModel
 import com.example.lingo.userInterface.QuestionScreen
 
-val questionData = Question(
+/*val questionData = Question(
     question = "What is your question?",
     options = listOf("Option 1", "Option 2", "Option 3", "Option 4"),
     answer = "Option 1",
     id = 1
-)
+)*/
 @Composable
 fun LingoNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    loginViewModel: LoginViewModel = viewModel()
+    loginViewModel: LoginViewModel = viewModel(),
+    homeViewModel: HomeViewModel = viewModel()
 ) {
     var startDes by remember { mutableStateOf("Login") }
 
@@ -40,14 +42,11 @@ fun LingoNavHost(
             LoginScreen( loginViewModel,navController)
         }
         composable(route = "Home") {
-            HomeScreen(loginViewModel,navController)
+            HomeScreen(homeViewModel,loginViewModel,navController, onNavigate = {})
         }
-        composable(route = "Levels/{courseId}") {
-            LevelsScreen(navController)
-        }
-        composable(route = "Questions/{levelId}") {
+        /*composable(route = "Questions/{courseId}") {
             QuestionScreen(questionData, 1)
-        }
+        }*/
     }
 }
 
