@@ -28,6 +28,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.runtime.*
 
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
 import com.example.lingo.room.Question
 
 @Composable
@@ -36,7 +37,7 @@ fun QuestionScreen(
     questionIndexState: Int
 ) {
     var selectedOption by remember { mutableStateOf<String?>(null) }
-
+    
     Column(
         modifier = Modifier
             .fillMaxSize() // Ensure the Column fills the entire screen
@@ -103,4 +104,9 @@ val question = Question(
     answer = "Option 1",
     id = 1
 )
+@Preview
+@Composable
+fun QScreenPreview() {
 
+    QuestionScreen(question,1)
+}

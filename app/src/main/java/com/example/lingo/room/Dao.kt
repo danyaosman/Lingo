@@ -8,11 +8,11 @@ import androidx.room.Update
 
 @Dao
 interface UsersDao {
-    @Insert(onConflict=OnConflictStrategy.IGNORE)
-    suspend fun insert(user:User)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(user: User)
 
-    @Query("SELECT * FROM users_table WHERE username=:username")
-    fun getUser(username:String):User
+    @Query("SELECT * FROM users_table WHERE username = :username")
+    fun getUser(username: String): User
 }
 
 @Dao
