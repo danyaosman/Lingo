@@ -1,4 +1,4 @@
-package com.example.lingo
+package com.example.lingo.userInterface
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,9 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.lingo.R
 import com.example.lingo.ui.theme.Brown
 import com.example.lingo.ui.theme.Green
 import com.example.lingo.ui.theme.Orange

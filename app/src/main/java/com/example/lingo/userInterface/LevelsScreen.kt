@@ -1,4 +1,4 @@
-package com.example.lingo
+package com.example.lingo.userInterface
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,30 +13,29 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.lingo.R
 import com.example.lingo.ui.theme.Brown
 import com.example.lingo.ui.theme.Green
+import com.example.lingo.ui.theme.LightGray
+import com.example.lingo.ui.theme.Orange
 import com.example.lingo.ui.theme.Yellow
 
 @Composable
-fun HomeScreen(loginViewModel: LoginViewModel, navController: NavHostController) {
+fun LevelsScreen(navController: NavHostController) {
     Column(
-        Modifier
+        modifier = Modifier
             .padding(24.dp)
             .fillMaxSize()
             .background(Green),
@@ -49,7 +48,7 @@ fun HomeScreen(loginViewModel: LoginViewModel, navController: NavHostController)
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
+            Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = null,
                 modifier = Modifier.size(60.dp),
@@ -57,18 +56,20 @@ fun HomeScreen(loginViewModel: LoginViewModel, navController: NavHostController)
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Text(text = loginViewModel.username.value,
+            Text(
+                text = "name",
                 textAlign = TextAlign.End,
                 color = Color.White,
-                modifier= Modifier.padding(10.dp))
+                modifier = Modifier.padding(10.dp)
+            )
 
-            //user icon
+            // user icon
             Box(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
                     .background(Yellow)
-            ){
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.user),
                     contentDescription = null,
@@ -79,53 +80,55 @@ fun HomeScreen(loginViewModel: LoginViewModel, navController: NavHostController)
         }
 
         Spacer(modifier = Modifier.height(10.dp))
-        Text(modifier = Modifier
-            .align(Alignment.Start)
-            .padding(horizontal = 20.dp, vertical = 10.dp),
+        Text(
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(horizontal = 20.dp, vertical = 10.dp),
             fontWeight = FontWeight.Bold,
-            fontSize = 28.sp,
+            fontSize = 30.sp,
             color = Color.White,
-            text = "Courses")
+            text = "Levels"
+        )
 
-        // Courses List
+        // Levels List
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            CourseItem("Spanish", painterResource(id = R.drawable.spain))
-            CourseItem("French", painterResource(id = R.drawable.france))
-            CourseItem("Turkish", painterResource(id = R.drawable.turkey))
-            CourseItem("Greek", painterResource(id = R.drawable.greece))
-            CourseItem("Chinese", painterResource(id = R.drawable.china))
+            LevelItem("Level 1", Yellow, R.drawable.check)
+            LevelItem("Level 2", Yellow, R.drawable.check)
+            LevelItem("Level 3", Orange, R.drawable.check__1_)
+            LevelItem("Level 4", LightGray, R.drawable.cancel)
         }
 
-        Image(
-            painter = painterResource(id = R.drawable.logout),
-            contentDescription = null,
+        Box(
             modifier = Modifier
-                .padding(start = 40.dp, top = 50.dp)
-                .align(Alignment.Start)
+                .size(24.dp)
                 .clickable {
-                    // Perform the logout action
-                    loginViewModel.username.value=""
-
-                    // Navigate back to the login screen
                     navController.navigate("Login")
                 }
-        )
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.back_button),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(start = 40.dp, top = 50.dp)
+            )
+        }
+
     }
 }
 
 @Composable
-fun CourseItem(language: String, flag: Painter) {
+fun LevelItem(level: String, color: Color, iconResId: Int) {
     Button(
         onClick = {},
         modifier = Modifier
-            .height(70.dp)
+            .height(90.dp)  // Made the box smaller
             .fillMaxWidth()
-            .padding(vertical = 7.dp, horizontal = 17.dp)
+            .padding(vertical = 10.dp, horizontal = 17.dp)
             .clip(RoundedCornerShape(16.dp)),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Yellow,
+            containerColor = color,
             contentColor = Brown
         )
     ) {
@@ -134,17 +137,17 @@ fun CourseItem(language: String, flag: Painter) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = language,
-                fontSize = 17.sp,
-                textAlign = TextAlign.Start,
+                text = level,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Start, fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .weight(1f) // we use weight so that the remaining space is given to text
+                    .weight(1f)
                     .padding(start = 8.dp)
             )
             Image(
-                painter = flag,
+                painter = painterResource(id = iconResId),
                 contentDescription = null,
-                modifier = Modifier.size(30.dp)
+                modifier = Modifier.size(24.dp)
             )
         }
     }

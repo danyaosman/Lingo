@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UsersDao {
@@ -23,18 +24,22 @@ interface QuestionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(question: Question)
 
-    @Query("SELECT * FROM questions WHERE levelId = :levelId AND courseId=:courseId")
-    fun getQuestionsByLvlAndCourse(levelId:Int, courseId: Int):List<Question>
+    @Query("SELECT * FROM questions WHERE courseId=:courseId")
+    fun getQuestionsByCourse(courseId: Int):List<Question>
+}
+
+
+@Dao
+interface CourseDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(course:Course)
+
+    @Query("SELECT name FROM courses")
+    fun getCourseNames(): List<String>
+
 }
 
 @Dao
-interface LevelDao {
+interface UserCoursesDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(level: Level)
-    @Update
-    suspend fun update(level:Level)
-
-    @Query("SELECT * FROM levels WHERE courseid = :courseId")
-    fun getCourseLevels(courseId:Int):List<Boolean>
 }

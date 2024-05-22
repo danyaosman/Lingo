@@ -1,4 +1,4 @@
-package com.example.lingo
+package com.example.lingo.userInterface
 import androidx.lifecycle.ViewModel
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue

@@ -21,22 +21,19 @@ data class Question(
     val option3: String,
     val option4: String,
     val answer: String,
-    val levelId:Int,
     val courseId: Int
 )
 
-@Entity(tableName="levels")
-data class Level(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int=1,
-    val isCompleted: Boolean=false,
-    val courseId: Int,
-    val userId: Int
-    )
 
 @Entity(tableName = "courses")
 data class Course(
     @PrimaryKey(autoGenerate = true)
     val id: Int=1,
     val name: String
+)
+
+@Entity(tableName = "user_courses")
+data class userCourses(
+    val userId:Int,
+    val courseId: Int
 )
