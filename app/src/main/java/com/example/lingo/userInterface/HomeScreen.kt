@@ -26,14 +26,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.lingo.R
+import com.example.lingo.room.Course
 import com.example.lingo.ui.theme.Brown
 import com.example.lingo.ui.theme.Green
 import com.example.lingo.ui.theme.Yellow
 
 @Composable
-fun HomeScreen(loginViewModel: LoginViewModel, navController: NavHostController) {
+fun HomeScreen(loginViewModel: LoginViewModel,
+               homeViewModel: HomeViewModel,
+               navController: NavHostController,
+               onNavigate: (Int) -> Unit
+) {
+    val courses = homeViewModel.getCourses()
+
     Column(
         Modifier
             .padding(24.dp)
@@ -87,15 +95,15 @@ fun HomeScreen(loginViewModel: LoginViewModel, navController: NavHostController)
             text = "Courses")
 
         // Courses List
-        Column(
+       /* Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            CourseItem("Spanish", painterResource(id = R.drawable.spain))
+            Course(1, painterResource(id = R.drawable.spain))
             CourseItem("French", painterResource(id = R.drawable.france))
             CourseItem("Turkish", painterResource(id = R.drawable.turkey))
             CourseItem("Greek", painterResource(id = R.drawable.greece))
             CourseItem("Chinese", painterResource(id = R.drawable.china))
-        }
+        }*/
 
         Image(
             painter = painterResource(id = R.drawable.logout),
@@ -105,7 +113,7 @@ fun HomeScreen(loginViewModel: LoginViewModel, navController: NavHostController)
                 .align(Alignment.Start)
                 .clickable {
                     // Perform the logout action
-                    loginViewModel.username.value=""
+                    loginViewModel.username.value = ""
 
                     // Navigate back to the login screen
                     navController.navigate("Login")
@@ -115,7 +123,7 @@ fun HomeScreen(loginViewModel: LoginViewModel, navController: NavHostController)
 }
 
 @Composable
-fun CourseItem(language: String, flag: Painter) {
+fun CourseItem(course: Course) {
     Button(
         onClick = {},
         modifier = Modifier
@@ -133,7 +141,7 @@ fun CourseItem(language: String, flag: Painter) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = language,
+                text = course.name,
                 fontSize = 17.sp,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
@@ -141,7 +149,7 @@ fun CourseItem(language: String, flag: Painter) {
                     .padding(start = 8.dp)
             )
             Image(
-                painter = flag,
+                painter = course.icon,
                 contentDescription = null,
                 modifier = Modifier.size(30.dp)
             )

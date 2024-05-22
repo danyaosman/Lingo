@@ -18,6 +18,7 @@ class Repository (
     ){
     fun getUserById(id:Int) = usersDao.getUserById(id)
     fun getUserByName(name:String) = usersDao.getUserByName(name)
+    fun getUsername(id:Int) = usersDao.getUsername(id)
     fun getQuestionsByCourse(courseId: Int) = questionDao.getQuestionsByCourse(courseId)
     fun getCourseNames() = courseDao.getCourseNames()
 

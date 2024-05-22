@@ -4,8 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UsersDao {
@@ -17,6 +15,9 @@ interface UsersDao {
 
     @Query("SELECT * FROM users WHERE username=:username")
     fun getUserByName(username:String):User
+
+    @Query("SELECT username FROM users WHERE id=:id")
+    fun getUsername(id:Int):String
 }
 @Dao
 interface QuestionDao {
@@ -34,6 +35,9 @@ interface CourseDao {
 
     @Query("SELECT name FROM courses")
     fun getCourseNames(): List<String>
+
+    @Query("SELECT * FROM courses")
+    fun getCourses(): List<Course>
 
 }
 @Dao
