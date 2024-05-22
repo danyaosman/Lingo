@@ -24,7 +24,6 @@ data class Question(
     val courseId: Int
 )
 
-
 @Entity(tableName = "courses")
 data class Course(
     @PrimaryKey(autoGenerate = true)
@@ -33,7 +32,7 @@ data class Course(
 )
 
 @Entity(tableName = "user_courses")
-data class userCourses(
+data class UserCourses(
     val userId:Int,
     val courseId: Int
 )
