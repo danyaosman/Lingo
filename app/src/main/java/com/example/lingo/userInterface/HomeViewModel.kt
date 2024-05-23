@@ -22,40 +22,5 @@ class HomeViewModel(
         {repository.getCourseNames()}
     }
 
-    private val _username = MutableStateFlow("")
-    val username: StateFlow<String> = _username.asStateFlow()
 
-    private val _password = MutableStateFlow("")
-    val password: StateFlow<String> = _password.asStateFlow()
-
-    private val _user = MutableStateFlow<User?>(null)
-    val user: StateFlow<User?> = _user.asStateFlow()
-    fun setUsername(name: String) {
-        _username.value = name
-    }
-
-    fun setPassword(pass: String) {
-        _password.value = pass
-    }
-    fun insertUser(user: User) {
-        viewModelScope.launch(ioDispatcher) {
-            repository.insertUser(user)
-        }
-    }
-
-    fun clearUser() {
-        _user.value = null
-        _username.value = ""
-        _password.value = ""
-    }
-    fun setUser(user: User) {
-        _user.value = user
-        _username.value = user.username
-        _password.value = user.password
-    }
-    suspend fun getUser(username: String): User? {
-        return viewModelScope.async(ioDispatcher) {
-            repository.getUserByName(username)
-        }.await()
-    }
 }

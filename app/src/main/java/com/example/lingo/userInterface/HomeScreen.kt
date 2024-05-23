@@ -49,12 +49,12 @@ fun HomeScreen(homeViewModel: HomeViewModel,
                onNavigate: (Int) -> Unit
 ) {
     val courses = homeViewModel.getCourses()
-    val username by homeViewModel.username.collectAsStateWithLifecycle()
+    val username by loginViewModel.username.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
 
     val onLogout: () -> Unit = {
         coroutineScope.launch {
-                homeViewModel.clearUser()
+            loginViewModel.clearUser()
                 navController.navigate("Login")
         }
     }

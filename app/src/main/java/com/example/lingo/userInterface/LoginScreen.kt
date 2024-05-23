@@ -38,31 +38,31 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoginScreen(homeViewModel: HomeViewModel,loginViewModel: LoginViewModel, navController: NavHostController) {
 
-    val username by homeViewModel.username.collectAsStateWithLifecycle()
-    val password by homeViewModel.password.collectAsStateWithLifecycle()
+    val username by loginViewModel.username.collectAsStateWithLifecycle()
+    val password by loginViewModel.password.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
 
     val onNameEntered: (String) -> Unit = remember {
         { name ->
-            homeViewModel.setUsername(name)
+            loginViewModel.setUsername(name)
         }
     }
 
     val onPasswordEntered: (String) -> Unit = remember {
         { pass ->
-            homeViewModel.setPassword(pass)
+            loginViewModel.setPassword(pass)
         }
     }
 
     val onSubmit: () -> Unit = {
         coroutineScope.launch {
             val currentUser = User( username = username, password = password)
-            val retrievedUser = homeViewModel.getUser(currentUser.username)
+            val retrievedUser = loginViewModel.getUser(currentUser.username)
             if (retrievedUser?.username != ""&&retrievedUser!=null) {
-                homeViewModel.setUser(retrievedUser)
+                loginViewModel.setUser(retrievedUser)
             } else {
                 // Insert new user
-                homeViewModel.insertUser(currentUser)
+                loginViewModel.insertUser(currentUser)
             }
         }
     }
