@@ -41,6 +41,7 @@ import kotlinx.coroutines.launch
 import androidx.compose.runtime.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.foundation.layout.Column
+import initCourseList
 import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel,
@@ -113,7 +114,7 @@ fun HomeScreen(homeViewModel: HomeViewModel,
             color = Color.White,
             text = "Courses")
 
-        val courses = homeViewModel.getCourses()
+        val courses = homeViewModel.getCourses(firstTime = true)
         val flags = listOf(
             R.drawable.spain,
             R.drawable.france,

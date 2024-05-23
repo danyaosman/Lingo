@@ -40,7 +40,7 @@ interface CourseDao {
     fun getCourseNames(): List<String>
 
     @Query("SELECT * FROM courses")
-    fun getCourses(): List<Course>
+    suspend fun getCourses(): List<Course>
 
 }
 @Dao

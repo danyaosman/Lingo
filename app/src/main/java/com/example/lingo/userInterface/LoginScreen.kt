@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(homeViewModel: HomeViewModel,loginViewModel: LoginViewModel, navController: NavHostController) {
+fun LoginScreen(loginViewModel: LoginViewModel, navController: NavHostController) {
 
     val username by loginViewModel.username.collectAsStateWithLifecycle()
     val password by loginViewModel.password.collectAsStateWithLifecycle()
