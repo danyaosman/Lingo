@@ -41,12 +41,12 @@ import kotlinx.coroutines.launch
 import androidx.compose.runtime.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.foundation.layout.Column
+import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel,
                loginViewModel: LoginViewModel,
                navController: NavHostController,
-               onNavigate: (Int) -> Unit
 ) {
 
     val username by loginViewModel.username.collectAsStateWithLifecycle()
@@ -126,11 +126,16 @@ fun HomeScreen(homeViewModel: HomeViewModel,
 
         val size = minOf(courses.size, flags.size)
 
-        courses.take(size).forEachIndexed { index, course ->
+        courses.take(size).forEachIndexed { index:Int, course:Course->
             val flag = flags[index]
 
             // Pass the Course and flag Painter to the CourseItem function
-            CourseItem(course = course, flag = flag)
+            CourseItem(course = course, flag = flag,
+                onClick = {
+                    // Navigate to QuestionScreen with courseId
+                    navController.navigate("questionscreen/${course.id}")
+                },
+                navController = navController)
         }
 
         Image(
@@ -147,9 +152,13 @@ fun HomeScreen(homeViewModel: HomeViewModel,
 }
 
 @Composable
-fun CourseItem(course: Course, flag: Int) {
+fun CourseItem(course: Course,
+               onClick: () -> Unit,
+               flag: Int,
+               navController: NavController
+) {
     Button(
-        onClick = {},
+        onClick = { navController.navigate("Questions/{courseId}") },
         modifier = Modifier
             .height(70.dp)
             .fillMaxWidth()
