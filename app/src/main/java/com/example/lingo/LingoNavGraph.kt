@@ -42,11 +42,11 @@ fun LingoNavHost(
             LoginScreen(loginViewModel,navController)
         }
         composable(route = "Home") {
-            HomeScreen(homeViewModel,loginViewModel,navController, onNavigate = {})
+            HomeScreen(homeViewModel,loginViewModel,navController)
         }
-        /*composable(route = "Questions/{courseId}") {
-            QuestionScreen(questionData, 1)
-        }*/
+        composable(route = "Questions/{courseId}") {
+            //QuestionScreen(, 1)
+        }
     }
 }
 
