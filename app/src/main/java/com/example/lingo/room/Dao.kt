@@ -27,6 +27,9 @@ interface QuestionDao {
 
     @Query("SELECT * FROM questions WHERE courseId=:courseId")
     fun getQuestionsByCourse(courseId: Int):List<Question>
+
+    @Query("SELECT * FROM questions")
+    suspend fun getQuestions():List<Question>
 }
 
 @Dao

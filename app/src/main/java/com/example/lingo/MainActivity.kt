@@ -13,6 +13,7 @@ import com.example.lingo.room.LingoDatabase
 import com.example.lingo.ui.theme.LingoTheme
 import com.example.lingo.userInterface.HomeViewModel
 import com.example.lingo.userInterface.LoginViewModel
+import com.example.lingo.userInterface.QuestionsViewModel
 import kotlinx.coroutines.Dispatchers
 
 class MainActivity : ComponentActivity() {
@@ -28,7 +29,9 @@ class MainActivity : ComponentActivity() {
         val homeViewModel = HomeViewModel(
             repo,
             ioDispatcher = Dispatchers.IO)
-
+        val questionViewModel = QuestionsViewModel(
+            repo,
+            ioDispatcher = Dispatchers.IO)
         setContent {
             LingoTheme {
                 // A surface container using the 'background' color from the theme
@@ -36,7 +39,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    LingoNavHost(loginViewModel = loginViewModel, homeViewModel=homeViewModel, navController = rememberNavController())
+                    LingoNavHost(questionViewModel=questionViewModel,loginViewModel = loginViewModel, homeViewModel=homeViewModel, navController = rememberNavController())
                 }
             }
         }

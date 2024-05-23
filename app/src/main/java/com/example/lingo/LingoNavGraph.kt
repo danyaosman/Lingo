@@ -17,6 +17,7 @@ import com.example.lingo.userInterface.LevelsScreen
 import com.example.lingo.userInterface.LoginScreen
 import com.example.lingo.userInterface.LoginViewModel
 import com.example.lingo.userInterface.QuestionScreen
+import com.example.lingo.userInterface.QuestionsViewModel
 
 /*val questionData = Question(
     question = "What is your question?",
@@ -28,6 +29,7 @@ import com.example.lingo.userInterface.QuestionScreen
 fun LingoNavHost(
     loginViewModel: LoginViewModel = viewModel(),
     homeViewModel: HomeViewModel = viewModel(),
+    questionViewModel:QuestionsViewModel= viewModel(),
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
@@ -44,9 +46,9 @@ fun LingoNavHost(
         composable(route = "Home") {
             HomeScreen(homeViewModel,loginViewModel,navController, onNavigate = {})
         }
-        /*composable(route = "Questions/{courseId}") {
-            QuestionScreen(questionData, 1)
-        }*/
+        composable(route = "Questions/{courseId}") {
+            QuestionScreen(questionViewModel,navController)
+        }
     }
 }
 

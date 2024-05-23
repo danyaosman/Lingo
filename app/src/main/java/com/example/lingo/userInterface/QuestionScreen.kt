@@ -26,13 +26,15 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.runtime.*
 
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.lingo.room.Question
 
 @Composable
 fun QuestionScreen(
-    question: Question,
-    questionIndexState: Int
-) {
+    questionsViewModel: QuestionsViewModel,
+    navController: NavHostController,
+
+    ) {
     var selectedOption by remember { mutableStateOf<String?>(null) }
     
     Column(
@@ -104,8 +106,3 @@ val question = Question(
     answer = "Option 1",
     courseId = 1
 )
-@Preview
-@Composable
-fun QScreenPreview() {
-    QuestionScreen(question,1)
-}
