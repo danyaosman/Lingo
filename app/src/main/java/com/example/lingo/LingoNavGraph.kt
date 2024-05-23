@@ -33,6 +33,8 @@ fun LingoNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
+    val courseIndexState = remember { mutableStateOf(0) }
+
     var startDes by remember { mutableStateOf("Login") }
 
     LaunchedEffect(loginViewModel.username.value) {
@@ -44,10 +46,10 @@ fun LingoNavHost(
             LoginScreen(loginViewModel,navController)
         }
         composable(route = "Home") {
-            HomeScreen(homeViewModel,loginViewModel,navController, onNavigate = {})
+            HomeScreen(homeViewModel,loginViewModel,navController)
         }
         composable(route = "Questions/{courseId}") {
-            QuestionScreen(questionViewModel,navController)
+            QuestionScreen(questionViewModel, homeViewModel,navController )
         }
     }
 }

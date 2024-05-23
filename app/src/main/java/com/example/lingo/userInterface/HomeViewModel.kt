@@ -20,10 +20,12 @@ class HomeViewModel(
     private val ioDispatcher: CoroutineDispatcher
 ):ViewModel(){
 
-
     private val _courses = MutableStateFlow<List<Course>>(emptyList())
     val courses: StateFlow<List<Course>> = _courses.asStateFlow()
-
+    private val _course= MutableStateFlow<Course?>(null)
+    val course: StateFlow<Course?> = _course.asStateFlow()
+    private val _courseId = MutableStateFlow(0)
+    val courseId: StateFlow<Int> = _courseId.asStateFlow()
     init {
         viewModelScope.launch {
             var coursesRefreshed = false // Flag to track whether courses have been refreshed
@@ -57,5 +59,10 @@ class HomeViewModel(
             _courses.value = repository.getCourses()
         }
     }
-
+    fun setSelectedCourse(course: Course) {
+        _course.value = course
+    }
+    fun setSelectedCourseId(course: Int) {
+        _courseId.value = course
+    }
 }

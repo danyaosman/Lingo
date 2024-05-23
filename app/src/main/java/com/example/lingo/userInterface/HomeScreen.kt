@@ -1,4 +1,5 @@
 package com.example.lingo.userInterface
+import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.foundation.layout.Column
@@ -62,6 +63,11 @@ fun HomeScreen(homeViewModel: HomeViewModel,
             loginViewModel.clearUser()
                 navController.navigate("Login")
         }
+    }
+    val onSubmit: (Course) -> Unit = { course ->
+        homeViewModel.setSelectedCourse(course)
+        homeViewModel.setSelectedCourseId(course.id)
+        navController.navigate("questionscreen/${course.id}")
     }
 
 
@@ -130,12 +136,15 @@ fun HomeScreen(homeViewModel: HomeViewModel,
             val flag = flags[index]
 
             // Pass the Course and flag Painter to the CourseItem function
-            CourseItem(course = course, flag = flag,
-                onClick = {
-                    // Navigate to QuestionScreen with courseId
-                    navController.navigate("questionscreen/${course.id}")
-                },
-                navController = navController)
+            // Navigate to QuestionScreen with courseId as navigation argument
+            CourseItem(
+                course = course,
+                flag = flag,
+
+                homeViewModel,
+                navController = navController
+            )
+
         }
 
         Image(
@@ -153,12 +162,16 @@ fun HomeScreen(homeViewModel: HomeViewModel,
 
 @Composable
 fun CourseItem(course: Course,
-               onClick: () -> Unit,
                flag: Int,
+               homeViewModel: HomeViewModel,
                navController: NavController
 ) {
+    val selectedCourse by homeViewModel.course.collectAsState()
+
     Button(
-        onClick = { navController.navigate("Questions/{courseId}") },
+        onClick = { navController.navigate("Questions/{courseId}")
+            homeViewModel.setSelectedCourse(course)
+        },
         modifier = Modifier
             .height(70.dp)
             .fillMaxWidth()

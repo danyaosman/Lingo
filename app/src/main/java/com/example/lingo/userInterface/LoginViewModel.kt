@@ -30,7 +30,6 @@ class LoginViewModel(
     fun setUsername(name: String) {
         _username.value = name
     }
-
     fun setPassword(pass: String) {
         _password.value = pass
     }

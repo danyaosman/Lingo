@@ -1,5 +1,6 @@
 package com.example.lingo.userInterface
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,31 +25,44 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.RadioButton
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.example.lingo.R
 import com.example.lingo.room.Question
 
 @Composable
 fun QuestionScreen(
     questionsViewModel: QuestionsViewModel,
-    navController: NavHostController,
-
-    ) {
+    homeViewModel: HomeViewModel,
+    navController: NavHostController
+) {
     var selectedOption by remember { mutableStateOf<String?>(null) }
-    
+    val courseQuestions by questionsViewModel.courseQuestions.collectAsState()
+    val selectedCourse by homeViewModel.course.collectAsStateWithLifecycle()
+
+    LaunchedEffect(selectedCourse) {
+        selectedCourse?.let { course ->
+            questionsViewModel.getQuestionsByCourseID(course.id)
+        }
+    }
+
+    println("selected course:${selectedCourse}")
+
     Column(
         modifier = Modifier
-            .fillMaxSize() // Ensure the Column fills the entire screen
+            .fillMaxSize()
             .fillMaxWidth()
             .background(Color(0xFFABC270))
-        .padding(20.dp),
-
+            .padding(20.dp),
         horizontalAlignment = Alignment.Start
     ) {
         Spacer(modifier = Modifier.height(32.dp))
         Text(
-            text = "Level 1",
+            text = "${selectedCourse?.name}",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Left,
@@ -56,53 +70,74 @@ fun QuestionScreen(
             )
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = "Question 1",
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                textAlign = TextAlign.Left,
-                )
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = question.question,
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                textAlign = TextAlign.Left,
-                )
-        )
-        Spacer(modifier = Modifier.height(16.dp))
 
-//        LazyColumn {
-//            items(question.options) { option ->
-//                Row(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(vertical = 8.dp)
-//                        .clickable { selectedOption = option },
-//                    verticalAlignment = Alignment.CenterVertically
-//                ) {
-//                    RadioButton(
-//                        selected = (selectedOption == option),
-//                        onClick = { selectedOption = option }
-//                    )
-//                    Spacer(modifier = Modifier.width(8.dp))
-//                    Text(text = option, style = TextStyle(fontSize = 16.sp))
-//                }
-//            }
-//        }
+        // Display questions and options
+        LazyColumn {
+            items(courseQuestions.size) { index ->
+                val question = courseQuestions[index]
+                // Display question
+                Text(
+                    text = question.question,
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        textAlign = TextAlign.Left
+                    ),
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                // Display options
+                OptionRow(
+                    option = question.option1,
+                    isSelected = selectedOption == question.option1,
+                    onOptionSelected = { selectedOption = question.option1 }
+                )
+                OptionRow(
+                    option = question.option2,
+                    isSelected = selectedOption == question.option2,
+                    onOptionSelected = { selectedOption = question.option2 }
+                )
+                OptionRow(
+                    option = question.option3,
+                    isSelected = selectedOption == question.option3,
+                    onOptionSelected = { selectedOption = question.option3 }
+                )
+                OptionRow(
+                    option = question.option4,
+                    isSelected = selectedOption == question.option4,
+                    onOptionSelected = { selectedOption = question.option4 }
+                )
+            }
+
+        }
+        Image(
+            painter = painterResource(id = R.drawable.logout),
+            contentDescription = null,
+            modifier = Modifier
+                .padding(start = 40.dp, top = 50.dp)
+                .align(Alignment.Start)
+                .clickable {
+                    navController.navigate("Home")
+                }
+        )
 
     }
+
 }
 
-val question = Question(
-    question = "What is your question?",
-    option1 = "Option 1",
-    option2 = "Option 2",
-    option3 = "Option 3",
-    option4 = "Option 4",
-    answer = "Option 1",
-    courseId = 1
-)
+@Composable
+fun OptionRow(option: String, isSelected: Boolean, onOptionSelected: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+            .clickable { onOptionSelected() },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RadioButton(
+            selected = isSelected,
+            onClick = { onOptionSelected() }
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = option, style = TextStyle(fontSize = 16.sp))
+    }
+}
