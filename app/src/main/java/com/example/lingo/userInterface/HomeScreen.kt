@@ -41,7 +41,6 @@ import kotlinx.coroutines.launch
 import androidx.compose.runtime.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.foundation.layout.Column
-import initCourseList
 import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel,

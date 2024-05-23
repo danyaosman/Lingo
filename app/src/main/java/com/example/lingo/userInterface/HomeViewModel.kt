@@ -25,8 +25,25 @@ class HomeViewModel(
     val courses: StateFlow<List<Course>> = _courses.asStateFlow()
 
     init {
-        refreshCourses() // Load courses when ViewModel is created
-        initCourseList(repository)
+        viewModelScope.launch {
+            var coursesRefreshed = false // Flag to track whether courses have been refreshed
+
+            val refreshJob = async {
+                refreshCourses() // Launch refreshCourses() asynchronously
+                coursesRefreshed = true // Set flag to true after refreshCourses() completes
+            }
+
+            // Wait for refreshCourses() to complete
+            refreshJob.await()
+
+            // Once refreshCourses() is completed, collect courses
+            courses.collect { courseList ->
+                if (coursesRefreshed && courseList.isEmpty()) {
+                    // Courses list is empty and refreshCourses() has been executed
+                    initCourseList(repository)
+                }
+            }
+        }
     }
 
     private fun refreshCourses() {
