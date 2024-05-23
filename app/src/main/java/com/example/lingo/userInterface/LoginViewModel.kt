@@ -20,7 +20,7 @@ class LoginViewModel(
 ):ViewModel(){
     fun getCourses(){
         viewModelScope.launch(ioDispatcher)
-        {repository.getCourseNames()}
+        {repository.getCourses()}
     }
 
     private val _username = MutableStateFlow("")

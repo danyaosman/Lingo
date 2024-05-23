@@ -13,7 +13,7 @@ data class User(
 @Entity(tableName = "questions")
 data class Question(
     @PrimaryKey(autoGenerate = true)
-    val id: Int=1,
+    val id: Int=0,
     val question: String,
     val option1: String,
     val option2: String,
@@ -27,7 +27,7 @@ data class Question(
 @Entity(tableName = "courses")
 data class Course(
     @PrimaryKey(autoGenerate = true)
-    val id: Int=1,
+    val id: Int=0,
     val name: String,
 )
 

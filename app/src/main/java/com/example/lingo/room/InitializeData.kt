@@ -1,9 +1,9 @@
-//import com.example.lingo.repository.Repository
-//import com.example.lingo.room.Course
-//import com.example.lingo.room.Question
-//import kotlinx.coroutines.runBlocking
-//
-//fun initializeData(repository: Repository) = runBlocking {
+import com.example.lingo.repository.Repository
+import com.example.lingo.room.Course
+import com.example.lingo.room.Question
+import kotlinx.coroutines.runBlocking
+
+fun initializeData(repository: Repository) = runBlocking {
 //    // Create courses
 //    val spanishCourse = Course(name = "Spanish")
 //    val frenchCourse = Course(name = "French")
@@ -36,4 +36,20 @@
 //
 //    val allQuestions = listOf(spanishQuestions, frenchQuestions)
 //
-//}
+}
+
+fun initCourseList(repo: Repository): List<Course> = runBlocking {
+    val courses = listOf(
+        Course(name = "Spanish"),
+        Course(name = "French"),
+        Course(name = "Turkish"),
+        Course(name = "Greek"),
+        Course(name = "Chinese")
+    )
+
+    courses.forEach { course ->
+        repo.insertCourse(course)
+    }
+
+    courses
+}

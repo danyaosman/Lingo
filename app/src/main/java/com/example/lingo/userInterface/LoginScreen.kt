@@ -71,7 +71,6 @@ fun LoginScreen(homeViewModel: HomeViewModel,loginViewModel: LoginViewModel, nav
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp)
             .background(Green),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
