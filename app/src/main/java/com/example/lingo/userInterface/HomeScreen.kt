@@ -48,10 +48,14 @@ fun HomeScreen(homeViewModel: HomeViewModel,
                navController: NavHostController,
                onNavigate: (Int) -> Unit
 ) {
-
-    val username by loginViewModel.username.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
+    val username by loginViewModel.username.collectAsStateWithLifecycle()
+    val courses by homeViewModel.courses.collectAsStateWithLifecycle()
 
+    // Fetch courses when the screen is opened
+    LaunchedEffect(Unit) {
+        homeViewModel.getCourses()
+    }
 
     val onLogout: () -> Unit = {
         coroutineScope.launch {
@@ -59,11 +63,9 @@ fun HomeScreen(homeViewModel: HomeViewModel,
                 navController.navigate("Login")
         }
     }
-
-
-
     Column(
         Modifier
+            .padding(24.dp)
             .fillMaxSize()
             .background(Green),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -113,23 +115,17 @@ fun HomeScreen(homeViewModel: HomeViewModel,
             color = Color.White,
             text = "Courses")
 
-        val courses = homeViewModel.getCourses()
-        val flags = listOf(
-            R.drawable.spain,
-            R.drawable.france,
-            R.drawable.turkey,
-            R.drawable.greece,
-            R.drawable.china
-        )
-
-        val size = minOf(courses.size, flags.size)
-
-        courses.take(size).forEachIndexed { index, course ->
-            val flag = flags[index]
-
-            // Pass the Course and flag Painter to the CourseItem function
-            CourseItem(course = course, flag = flag)
-        }
+        // Courses List
+        /*
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Course(1, painterResource(id = R.drawable.spain))
+            CourseItem("French", painterResource(id = R.drawable.france))
+            CourseItem("Turkish", painterResource(id = R.drawable.turkey))
+            CourseItem("Greek", painterResource(id = R.drawable.greece))
+            CourseItem("Chinese", painterResource(id = R.drawable.china))
+        */
 
         Image(
             painter = painterResource(id = R.drawable.logout),
@@ -145,7 +141,7 @@ fun HomeScreen(homeViewModel: HomeViewModel,
 }
 
 @Composable
-fun CourseItem(course: Course, flag: Int) {
+fun CourseItem(course: Course, flag: Painter) {
     Button(
         onClick = {},
         modifier = Modifier
@@ -171,7 +167,7 @@ fun CourseItem(course: Course, flag: Int) {
                     .padding(start = 8.dp)
             )
             Image(
-                painter = painterResource(id = flag),
+                painter = flag,
                 contentDescription = null,
                 modifier = Modifier.size(30.dp)
             )
