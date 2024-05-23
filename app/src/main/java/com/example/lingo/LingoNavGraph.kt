@@ -39,7 +39,7 @@ fun LingoNavHost(
 
     NavHost(navController = navController, startDestination = startDes, modifier = modifier) {
         composable(route = "Login") {
-            LoginScreen( loginViewModel,navController)
+            LoginScreen(homeViewModel, loginViewModel,navController)
         }
         composable(route = "Home") {
             HomeScreen(homeViewModel,loginViewModel,navController, onNavigate = {})

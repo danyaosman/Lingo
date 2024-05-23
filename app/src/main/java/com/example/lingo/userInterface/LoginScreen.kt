@@ -12,9 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,17 +23,50 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.lingo.R
+import com.example.lingo.room.User
 import com.example.lingo.ui.theme.Brown
 import com.example.lingo.ui.theme.Green
 import com.example.lingo.ui.theme.Orange
 import com.example.lingo.ui.theme.Yellow
+import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.foundation.layout.Column
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModel, navController: NavHostController) {
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+fun LoginScreen(homeViewModel: HomeViewModel,loginViewModel: LoginViewModel, navController: NavHostController) {
+
+    val username by homeViewModel.username.collectAsStateWithLifecycle()
+    val password by homeViewModel.password.collectAsStateWithLifecycle()
+    val coroutineScope = rememberCoroutineScope()
+
+    val onNameEntered: (String) -> Unit = remember {
+        { name ->
+            homeViewModel.setUsername(name)
+        }
+    }
+
+    val onPasswordEntered: (String) -> Unit = remember {
+        { pass ->
+            homeViewModel.setPassword(pass)
+        }
+    }
+
+    val onSubmit: () -> Unit = {
+        coroutineScope.launch {
+            val currentUser = User( username = username, password = password)
+            val retrievedUser = homeViewModel.getUser(currentUser.username)
+            if (retrievedUser?.username != ""&&retrievedUser!=null) {
+                homeViewModel.setUser(retrievedUser)
+            } else {
+                // Insert new user
+                homeViewModel.insertUser(currentUser)
+            }
+        }
+    }
+
 
     Column(
         modifier = Modifier
@@ -56,9 +87,11 @@ fun LoginScreen(loginViewModel: LoginViewModel, navController: NavHostController
 
         TextField(
             value = username,
-            onValueChange = { username = it },
+            onValueChange = onNameEntered,
             label = { Text("Username") },
-            modifier = Modifier.padding(20.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(20.dp)
+                .fillMaxWidth(),
             shape = RoundedCornerShape(10.dp),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Yellow,
@@ -70,10 +103,9 @@ fun LoginScreen(loginViewModel: LoginViewModel, navController: NavHostController
 
         Spacer(modifier = Modifier.height(8.dp))
 
-
         TextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = onPasswordEntered,
             label = { Text("Password") },
             maxLines = 2,
             textStyle = TextStyle(color = Color.Blue, fontWeight = FontWeight.Bold),
@@ -92,19 +124,17 @@ fun LoginScreen(loginViewModel: LoginViewModel, navController: NavHostController
 
         Spacer(modifier = Modifier.height(16.dp))
 
+
         Button(
             onClick = {
-                // Save the input values to the ViewModel
-                loginViewModel.username.value = username
-                loginViewModel.password.value = password
-                // Navigate to the Home screen
+                onSubmit()
                 navController.navigate("Home")
             },
                 modifier = Modifier
-                .height(70.dp)
-                .fillMaxWidth()
-                .padding(vertical = 7.dp, horizontal = 17.dp)
-                .clip(RoundedCornerShape(16.dp)),
+                    .height(70.dp)
+                    .fillMaxWidth()
+                    .padding(vertical = 7.dp, horizontal = 17.dp)
+                    .clip(RoundedCornerShape(16.dp)),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Orange,
                 contentColor = Brown

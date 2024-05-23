@@ -1,5 +1,8 @@
 package com.example.lingo.userInterface
-
+import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.foundation.layout.Column
+import kotlinx.coroutines.launch
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,10 +32,16 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.lingo.R
 import com.example.lingo.room.Course
+import com.example.lingo.room.User
 import com.example.lingo.ui.theme.Brown
 import com.example.lingo.ui.theme.Green
 import com.example.lingo.ui.theme.Yellow
-
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.foundation.layout.Column
+import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel,
                loginViewModel: LoginViewModel,
@@ -40,7 +49,15 @@ fun HomeScreen(homeViewModel: HomeViewModel,
                onNavigate: (Int) -> Unit
 ) {
     val courses = homeViewModel.getCourses()
+    val username by homeViewModel.username.collectAsStateWithLifecycle()
+    val coroutineScope = rememberCoroutineScope()
 
+    val onLogout: () -> Unit = {
+        coroutineScope.launch {
+                homeViewModel.clearUser()
+                navController.navigate("Login")
+        }
+    }
     Column(
         Modifier
             .padding(24.dp)
@@ -63,7 +80,7 @@ fun HomeScreen(homeViewModel: HomeViewModel,
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Text(text = loginViewModel.username.value,
+            Text(text = username,
                 textAlign = TextAlign.End,
                 color = Color.White,
                 modifier= Modifier.padding(10.dp))
@@ -112,11 +129,7 @@ fun HomeScreen(homeViewModel: HomeViewModel,
                 .padding(start = 40.dp, top = 50.dp)
                 .align(Alignment.Start)
                 .clickable {
-                    // Perform the logout action
-                    loginViewModel.username.value = ""
-
-                    // Navigate back to the login screen
-                    navController.navigate("Login")
+                    onLogout()
                 }
         )
     }
