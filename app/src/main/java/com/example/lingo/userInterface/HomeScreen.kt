@@ -52,7 +52,11 @@ fun HomeScreen(homeViewModel: HomeViewModel,
 
     val username by loginViewModel.username.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
+    val courses by homeViewModel.courses.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        homeViewModel.getCourses()
+    }
 
     val onLogout: () -> Unit = {
         coroutineScope.launch {
@@ -60,7 +64,6 @@ fun HomeScreen(homeViewModel: HomeViewModel,
                 navController.navigate("Login")
         }
     }
-
 
 
     Column(
@@ -114,7 +117,6 @@ fun HomeScreen(homeViewModel: HomeViewModel,
             color = Color.White,
             text = "Courses")
 
-        val courses = homeViewModel.getCourses(firstTime = true)
         val flags = listOf(
             R.drawable.spain,
             R.drawable.france,

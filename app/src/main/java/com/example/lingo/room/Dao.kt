@@ -32,7 +32,6 @@ interface QuestionDao {
 @Dao
 interface CourseDao {
 
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(course:Course)
 

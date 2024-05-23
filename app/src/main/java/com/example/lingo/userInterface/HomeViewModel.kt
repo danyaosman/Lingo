@@ -20,12 +20,25 @@ class HomeViewModel(
     private val ioDispatcher: CoroutineDispatcher
 ):ViewModel(){
 
-    fun getCourses(firstTime: Boolean):List<Course>{
-        if(firstTime)initCourseList(repository)
-        var courses = listOf<Course>()
-        viewModelScope.launch(ioDispatcher)
-        {courses = repository.getCourses()}
-        return courses
+
+    private val _courses = MutableStateFlow<List<Course>>(emptyList())
+    val courses: StateFlow<List<Course>> = _courses.asStateFlow()
+
+    init {
+        refreshCourses() // Load courses when ViewModel is created
+        initCourseList(repository)
+    }
+
+    private fun refreshCourses() {
+        viewModelScope.launch(ioDispatcher) {
+            _courses.value = repository.getCourses()
+        }
+    }
+
+    fun getCourses() {
+        viewModelScope.launch(ioDispatcher) {
+            _courses.value = repository.getCourses()
+        }
     }
 
 }
