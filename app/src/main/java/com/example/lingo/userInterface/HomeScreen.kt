@@ -41,6 +41,7 @@ import kotlinx.coroutines.launch
 import androidx.compose.runtime.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.foundation.layout.Column
+import initCourseList
 import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel,
@@ -51,7 +52,11 @@ fun HomeScreen(homeViewModel: HomeViewModel,
 
     val username by loginViewModel.username.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
+    val courses by homeViewModel.courses.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        homeViewModel.getCourses()
+    }
 
     val onLogout: () -> Unit = {
         coroutineScope.launch {
@@ -59,7 +64,6 @@ fun HomeScreen(homeViewModel: HomeViewModel,
                 navController.navigate("Login")
         }
     }
-
 
 
     Column(
@@ -113,7 +117,6 @@ fun HomeScreen(homeViewModel: HomeViewModel,
             color = Color.White,
             text = "Courses")
 
-        val courses = homeViewModel.getCourses()
         val flags = listOf(
             R.drawable.spain,
             R.drawable.france,

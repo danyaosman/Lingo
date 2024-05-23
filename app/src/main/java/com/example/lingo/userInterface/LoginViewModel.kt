@@ -18,10 +18,6 @@ class LoginViewModel(
     private val repository: Repository,
     private val ioDispatcher: CoroutineDispatcher
 ):ViewModel(){
-    fun getCourses(){
-        viewModelScope.launch(ioDispatcher)
-        {repository.getCourses()}
-    }
 
     private val _username = MutableStateFlow("")
     val username: StateFlow<String> = _username.asStateFlow()

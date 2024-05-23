@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lingo.repository.Repository
 import com.example.lingo.room.Course
 import com.example.lingo.room.User
+import initCourseList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,12 +19,26 @@ class HomeViewModel(
     private val repository: Repository,
     private val ioDispatcher: CoroutineDispatcher
 ):ViewModel(){
-    fun getCourses():List<Course>{
-        var courses = listOf<Course>()
-        viewModelScope.launch(ioDispatcher)
-        {courses = repository.getCourses()}
-        return courses
+
+
+    private val _courses = MutableStateFlow<List<Course>>(emptyList())
+    val courses: StateFlow<List<Course>> = _courses.asStateFlow()
+
+    init {
+        refreshCourses() // Load courses when ViewModel is created
+        initCourseList(repository)
     }
 
+    private fun refreshCourses() {
+        viewModelScope.launch(ioDispatcher) {
+            _courses.value = repository.getCourses()
+        }
+    }
+
+    fun getCourses() {
+        viewModelScope.launch(ioDispatcher) {
+            _courses.value = repository.getCourses()
+        }
+    }
 
 }

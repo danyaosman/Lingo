@@ -1,5 +1,6 @@
 package com.example.lingo.userInterface
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -31,17 +32,18 @@ import com.example.lingo.ui.theme.Yellow
 import androidx.compose.runtime.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.foundation.layout.Column
+import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(homeViewModel: HomeViewModel,loginViewModel: LoginViewModel, navController: NavHostController) {
+fun LoginScreen(loginViewModel: LoginViewModel, navController: NavHostController) {
 
     val username by loginViewModel.username.collectAsStateWithLifecycle()
     val password by loginViewModel.password.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
-
+    val context= LocalContext.current
     val onNameEntered: (String) -> Unit = remember {
         { name ->
             loginViewModel.setUsername(name)
@@ -55,14 +57,23 @@ fun LoginScreen(homeViewModel: HomeViewModel,loginViewModel: LoginViewModel, nav
     }
 
     val onSubmit: () -> Unit = {
+
         coroutineScope.launch {
             val currentUser = User( username = username, password = password)
             val retrievedUser = loginViewModel.getUser(currentUser.username)
             if (retrievedUser?.username != ""&&retrievedUser!=null) {
-                loginViewModel.setUser(retrievedUser)
+                if(password==retrievedUser.password) {
+                    loginViewModel.setUser(retrievedUser)
+                    navController.navigate("Home")
+
+                }else{
+                    Toast.makeText(context, "the password is incorrect", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 // Insert new user
                 loginViewModel.insertUser(currentUser)
+                navController.navigate("Home")
+
             }
         }
     }
@@ -127,7 +138,6 @@ fun LoginScreen(homeViewModel: HomeViewModel,loginViewModel: LoginViewModel, nav
         Button(
             onClick = {
                 onSubmit()
-                navController.navigate("Home")
             },
                 modifier = Modifier
                     .height(70.dp)
