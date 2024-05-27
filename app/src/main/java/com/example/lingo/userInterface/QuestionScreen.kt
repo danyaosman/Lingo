@@ -33,6 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.lingo.R
 import com.example.lingo.room.Question
+import com.example.lingo.ui.theme.Green
 
 @Composable
 fun QuestionScreen(
@@ -56,7 +57,7 @@ fun QuestionScreen(
         modifier = Modifier
             .fillMaxSize()
             .fillMaxWidth()
-            .background(Color(0xFFABC270))
+            .background(Green)
             .padding(20.dp),
         horizontalAlignment = Alignment.Start
     ) {
