@@ -1,7 +1,5 @@
 package com.example.lingo.userInterface
-import android.widget.Toast
 import androidx.compose.runtime.*
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.foundation.layout.Column
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.Image
@@ -9,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.*
@@ -24,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -33,43 +29,34 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.lingo.R
 import com.example.lingo.room.Course
-import com.example.lingo.room.User
 import com.example.lingo.ui.theme.Brown
 import com.example.lingo.ui.theme.Green
 import com.example.lingo.ui.theme.Yellow
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import androidx.compose.runtime.*
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.foundation.layout.Column
-import androidx.navigation.NavController
-import kotlinx.coroutines.launch
+
 @Composable
-fun HomeScreen(homeViewModel: HomeViewModel,
-               loginViewModel: LoginViewModel,
-               navController: NavHostController,
+fun HomeScreen(
+    homeViewModel: HomeViewModel,
+    loginViewModel: LoginViewModel,
+    navController: NavHostController,
 ) {
+    val username by loginViewModel.username.collectAsState()
+    val courses by homeViewModel.courses.collectAsState()
 
-    val username by loginViewModel.username.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
-    val courses by homeViewModel.courses.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        homeViewModel.getCourses()
-    }
-
+    //handle logout
     val onLogout: () -> Unit = {
         coroutineScope.launch {
             loginViewModel.clearUser()
-                navController.navigate("Login")
+            navController.navigate("Login")
         }
     }
+
+    // handle nav to question screen
     val onSubmit: (Course) -> Unit = { course ->
         homeViewModel.setSelectedCourse(course)
-        homeViewModel.setSelectedCourseId(course.id)
-        navController.navigate("questionscreen/${course.id}")
+        navController.navigate("Questions/${course.id}")
     }
-
 
     Column(
         Modifier
@@ -77,6 +64,7 @@ fun HomeScreen(homeViewModel: HomeViewModel,
             .background(Green),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // header
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -88,39 +76,43 @@ fun HomeScreen(homeViewModel: HomeViewModel,
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = null,
                 modifier = Modifier.size(60.dp),
+                tint = Brown
             )
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Text(text = username,
+            Text(
+                text = username,
                 textAlign = TextAlign.End,
                 color = Color.White,
-                modifier= Modifier.padding(10.dp))
+                modifier = Modifier.padding(10.dp)
+            )
 
-            //user icon
             Box(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
                     .background(Yellow)
-            ){
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.user),
                     contentDescription = null,
-                    modifier = Modifier
-                        .align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center)
                 )
             }
         }
 
         Spacer(modifier = Modifier.height(10.dp))
-        Text(modifier = Modifier
-            .align(Alignment.Start)
-            .padding(horizontal = 20.dp, vertical = 10.dp),
+
+        Text(
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(horizontal = 20.dp, vertical = 10.dp),
             fontWeight = FontWeight.Bold,
             fontSize = 28.sp,
             color = Color.White,
-            text = "Courses")
+            text = "Courses"
+        )
 
         val flags = listOf(
             R.drawable.spain,
@@ -135,43 +127,34 @@ fun HomeScreen(homeViewModel: HomeViewModel,
         courses.take(size).forEachIndexed { index:Int, course:Course->
             val flag = flags[index]
 
-            // Pass the Course and flag Painter to the CourseItem function
-            // Navigate to QuestionScreen with courseId as navigation argument
+
             CourseItem(
                 course = course,
                 flag = flag,
-
-                homeViewModel,
-                navController = navController
+                onCourseSelected = { onSubmit(course) }
             )
-
         }
 
+        // Logout button
         Image(
             painter = painterResource(id = R.drawable.logout),
             contentDescription = null,
             modifier = Modifier
                 .padding(start = 40.dp, top = 50.dp)
                 .align(Alignment.Start)
-                .clickable {
-                    onLogout()
-                }
+                .clickable(onClick = onLogout)
         )
     }
 }
 
 @Composable
-fun CourseItem(course: Course,
-               flag: Int,
-               homeViewModel: HomeViewModel,
-               navController: NavController
+fun CourseItem(
+    course: Course,
+    flag: Int,
+    onCourseSelected: () -> Unit
 ) {
-    val selectedCourse by homeViewModel.course.collectAsState()
-
     Button(
-        onClick = { navController.navigate("Questions/{courseId}")
-            homeViewModel.setSelectedCourse(course)
-        },
+        onClick = onCourseSelected,
         modifier = Modifier
             .height(70.dp)
             .fillMaxWidth()
@@ -202,3 +185,4 @@ fun CourseItem(course: Course,
         }
     }
 }
+
