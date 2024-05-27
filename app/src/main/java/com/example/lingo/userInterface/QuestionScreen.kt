@@ -17,7 +17,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 import androidx.compose.foundation.background
@@ -33,7 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.lingo.R
 import com.example.lingo.room.Question
-import com.example.lingo.ui.theme.Green
+import com.example.lingo.ui.theme.Orange
 
 @Composable
 fun QuestionScreen(
@@ -41,9 +40,10 @@ fun QuestionScreen(
     homeViewModel: HomeViewModel,
     navController: NavHostController
 ) {
-    var selectedOption by remember { mutableStateOf<String?>(null) }
     val courseQuestions by questionsViewModel.courseQuestions.collectAsState()
     val selectedCourse by homeViewModel.course.collectAsStateWithLifecycle()
+    val selectedOptions = remember { mutableStateOf(mutableMapOf<Int, String>()) }
+    var totalGrade by remember { mutableStateOf(0) }
 
     LaunchedEffect(selectedCourse) {
         selectedCourse?.let { course ->
@@ -57,7 +57,7 @@ fun QuestionScreen(
         modifier = Modifier
             .fillMaxSize()
             .fillMaxWidth()
-            .background(Green)
+            .background(Orange)
             .padding(20.dp),
         horizontalAlignment = Alignment.Start
     ) {
@@ -70,12 +70,23 @@ fun QuestionScreen(
                 fontSize = 20.sp,
             )
         )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = "Total Grade: $totalGrade",
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Left
+            )
+        )
         Spacer(modifier = Modifier.height(16.dp))
 
         // Display questions and options
         LazyColumn {
             items(courseQuestions.size) { index ->
                 val question = courseQuestions[index]
+                val selectedOption = selectedOptions.value[question.id]
+
                 // Display question
                 Text(
                     text = question.question,
@@ -90,26 +101,54 @@ fun QuestionScreen(
                 OptionRow(
                     option = question.option1,
                     isSelected = selectedOption == question.option1,
-                    onOptionSelected = { selectedOption = question.option1 }
+                    onOptionSelected = {
+                        selectedOptions.value = selectedOptions.value.toMutableMap().apply {
+                            put(question.id, question.option1)
+                        }
+                        totalGrade = calculateTotalGrade(courseQuestions, selectedOptions.value)
+                    }
                 )
                 OptionRow(
                     option = question.option2,
                     isSelected = selectedOption == question.option2,
-                    onOptionSelected = { selectedOption = question.option2 }
+                    onOptionSelected = {
+                        selectedOptions.value = selectedOptions.value.toMutableMap().apply {
+                            put(question.id, question.option2)
+                        }
+                        totalGrade = calculateTotalGrade(courseQuestions, selectedOptions.value)
+                    }
                 )
                 OptionRow(
                     option = question.option3,
                     isSelected = selectedOption == question.option3,
-                    onOptionSelected = { selectedOption = question.option3 }
+                    onOptionSelected = {
+                        selectedOptions.value = selectedOptions.value.toMutableMap().apply {
+                            put(question.id, question.option3)
+                        }
+                        totalGrade = calculateTotalGrade(courseQuestions, selectedOptions.value)
+                    }
                 )
                 OptionRow(
                     option = question.option4,
                     isSelected = selectedOption == question.option4,
-                    onOptionSelected = { selectedOption = question.option4 }
+                    onOptionSelected = {
+                        selectedOptions.value = selectedOptions.value.toMutableMap().apply {
+                            put(question.id, question.option4)
+                        }
+                        totalGrade = calculateTotalGrade(courseQuestions, selectedOptions.value)
+                    }
                 )
             }
-
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Total Grade: $totalGrade",
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Left
+            )
+        )
         Image(
             painter = painterResource(id = R.drawable.logout),
             contentDescription = null,
@@ -120,9 +159,7 @@ fun QuestionScreen(
                     navController.navigate("Home")
                 }
         )
-
     }
-
 }
 
 @Composable
@@ -141,4 +178,14 @@ fun OptionRow(option: String, isSelected: Boolean, onOptionSelected: () -> Unit)
         Spacer(modifier = Modifier.width(8.dp))
         Text(text = option, style = TextStyle(fontSize = 16.sp))
     }
+}
+
+fun calculateTotalGrade(questions: List<Question>, selectedOptions: Map<Int, String>): Int {
+    var totalGrade = 0
+    for (question in questions) {
+        if (selectedOptions[question.id] == question.answer) {
+            totalGrade++
+        }
+    }
+    return totalGrade
 }
