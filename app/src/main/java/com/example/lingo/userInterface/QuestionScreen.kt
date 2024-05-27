@@ -32,7 +32,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.lingo.R
 import com.example.lingo.room.Question
+import com.example.lingo.ui.theme.Brown
+import com.example.lingo.ui.theme.Green
 import com.example.lingo.ui.theme.Orange
+import com.example.lingo.ui.theme.Yellow
 
 @Composable
 fun QuestionScreen(
@@ -56,33 +59,31 @@ fun QuestionScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .fillMaxWidth()
-            .background(Orange)
-            .padding(20.dp),
+            .background(Green),
         horizontalAlignment = Alignment.Start
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
-        Text(
-            text = "${selectedCourse?.name}",
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Left,
-                fontSize = 20.sp,
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Orange)
+                .padding(16.dp) // Padding inside the navbar
+        ) {
+            Text(
+                text = "${selectedCourse?.name}",
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Left,
+                    fontSize = 20.sp,
+                    color = Brown// Text color
+                )
             )
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = "Total Grade: $totalGrade",
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                textAlign = TextAlign.Left
-            )
-        )
+        }
         Spacer(modifier = Modifier.height(16.dp))
 
         // Display questions and options
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier.weight(1f) // Add weight to ensure it takes the available space
+        ) {
             items(courseQuestions.size) { index ->
                 val question = courseQuestions[index]
                 val selectedOption = selectedOptions.value[question.id]
@@ -140,25 +141,38 @@ fun QuestionScreen(
                 )
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = "Total Grade: $totalGrade",
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                textAlign = TextAlign.Left
-            )
-        )
-        Image(
-            painter = painterResource(id = R.drawable.logout),
-            contentDescription = null,
+
+        Box(
             modifier = Modifier
-                .padding(start = 40.dp, top = 50.dp)
-                .align(Alignment.Start)
-                .clickable {
-                    navController.navigate("Home")
-                }
-        )
+                .fillMaxWidth()
+                .background(Orange) // Change this to your desired background color
+                .padding(16.dp) // Padding inside the Box
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "Total Grade: $totalGrade",
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        textAlign = TextAlign.Left,
+                        color = Brown// Text color
+                    )
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.logout),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(24.dp) // Adjust size as needed
+                        .clickable {
+                            navController.navigate("Home")
+                        }
+                )
+            }
+        }
     }
 }
 
