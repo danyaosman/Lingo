@@ -22,11 +22,13 @@ class MainActivity : ComponentActivity() {
         //no singleton design pattern (yet)
         val db = LingoDatabase.getDatabase(context = this)
         // 2. Manual MainViewModel Creation
-        val repo = Repository(db.usersDao(), db.questionDao(), db.courseDao())
+        val repo = Repository(db.usersDao(), db.questionDao(), db.courseDao(), db.userCoursesDao())
         val loginViewModel = LoginViewModel(
             repo,
             ioDispatcher = Dispatchers.IO)
-        val homeViewModel = HomeViewModel(repo)
+        val homeViewModel = HomeViewModel(
+            repo,
+            ioDispatcher = Dispatchers.IO)
         val questionViewModel = QuestionsViewModel(
             repo,
             ioDispatcher = Dispatchers.IO)
@@ -43,3 +45,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+/*
+@Preview
+@Composable
+fun MainScreenPreview() {
+    val navController = rememberNavController()
+
+    LingoNavHost(navController)
+}*/
