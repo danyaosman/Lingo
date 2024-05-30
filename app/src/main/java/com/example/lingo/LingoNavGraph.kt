@@ -19,12 +19,6 @@ import com.example.lingo.userInterface.LoginViewModel
 import com.example.lingo.userInterface.QuestionScreen
 import com.example.lingo.userInterface.QuestionsViewModel
 
-/*val questionData = Question(
-    question = "What is your question?",
-    options = listOf("Option 1", "Option 2", "Option 3", "Option 4"),
-    answer = "Option 1",
-    id = 1
-)*/
 @Composable
 fun LingoNavHost(
     loginViewModel: LoginViewModel = viewModel(),

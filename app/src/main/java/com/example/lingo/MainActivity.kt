@@ -45,11 +45,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-/*
-@Preview
-@Composable
-fun MainScreenPreview() {
-    val navController = rememberNavController()
-
-    LingoNavHost(navController)
-}*/

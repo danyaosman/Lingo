@@ -16,13 +16,10 @@ class Repository (
     private val courseDao: CourseDao,
     private val userCoursesDao: UserCoursesDao,
     ){
-    fun getUserById(id:Int) = usersDao.getUserById(id)
     fun getUserByName(name:String) = usersDao.getUserByName(name)
     fun getQuestionsByCourse(courseId: Int) = questionDao.getQuestionsByCourse(courseId)
     suspend fun getCourses() = courseDao.getCourses()
     suspend fun getQuestions() = questionDao.getQuestions()
-
-    fun getUserCourses() = userCoursesDao.getUserCourses()
 
     suspend fun insertUser(user: User) {
         usersDao.insert(user)
@@ -36,7 +33,4 @@ class Repository (
         courseDao.insert(course)
     }
 
-    suspend fun insertUserCourse(userCourse: UserCourses) {
-        userCoursesDao.insert(userCourse)
-    }
 }

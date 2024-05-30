@@ -16,7 +16,6 @@ abstract class LingoDatabase:RoomDatabase () {
     abstract fun courseDao():CourseDao
     abstract fun userCoursesDao():UserCoursesDao
 
-
     companion object{
         var INSTANCE:LingoDatabase? = null
         fun getDatabase(context:Context):LingoDatabase{
