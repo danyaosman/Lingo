@@ -1,7 +1,6 @@
 package com.example.lingo
 
 import android.content.Context
-import com.example.lingo.repository.Repository
 import com.example.lingo.room.LingoDatabase
 
 object Graph {

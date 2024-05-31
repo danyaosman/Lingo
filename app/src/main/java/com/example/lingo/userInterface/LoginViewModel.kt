@@ -1,18 +1,15 @@
 package com.example.lingo.userInterface
 import androidx.lifecycle.ViewModel
-import androidx.compose.runtime.mutableStateOf
 import com.example.lingo.repository.Repository
 import kotlinx.coroutines.CoroutineDispatcher
 
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lingo.room.User
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class LoginViewModel(
     private val repository: Repository,

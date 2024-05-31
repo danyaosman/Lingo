@@ -1,5 +1,4 @@
 package com.example.lingo.userInterface
-import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.foundation.layout.Column
@@ -9,7 +8,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.*
@@ -24,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -33,17 +30,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.lingo.R
 import com.example.lingo.room.Course
-import com.example.lingo.room.User
 import com.example.lingo.ui.theme.Brown
 import com.example.lingo.ui.theme.Green
 import com.example.lingo.ui.theme.Yellow
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import androidx.compose.runtime.*
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.foundation.layout.Column
 import androidx.navigation.NavController
-import kotlinx.coroutines.launch
+
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel,
                loginViewModel: LoginViewModel,
@@ -64,12 +55,6 @@ fun HomeScreen(homeViewModel: HomeViewModel,
                 navController.navigate("Login")
         }
     }
-    val onSubmit: (Course) -> Unit = { course ->
-        homeViewModel.setSelectedCourse(course)
-        homeViewModel.setSelectedCourseId(course.id)
-        navController.navigate("questionscreen/${course.id}")
-    }
-
 
     Column(
         Modifier
@@ -134,13 +119,9 @@ fun HomeScreen(homeViewModel: HomeViewModel,
 
         courses.take(size).forEachIndexed { index:Int, course:Course->
             val flag = flags[index]
-
-            // Pass the Course and flag Painter to the CourseItem function
-            // Navigate to QuestionScreen with courseId as navigation argument
             CourseItem(
                 course = course,
                 flag = flag,
-
                 homeViewModel,
                 navController = navController
             )
@@ -166,10 +147,9 @@ fun CourseItem(course: Course,
                homeViewModel: HomeViewModel,
                navController: NavController
 ) {
-    val selectedCourse by homeViewModel.course.collectAsState()
 
     Button(
-        onClick = { navController.navigate("Questions/{courseId}")
+        onClick = { navController.navigate("Questions/{course.id}")
             homeViewModel.setSelectedCourse(course)
         },
         modifier = Modifier

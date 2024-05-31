@@ -4,7 +4,7 @@ import com.example.lingo.room.Question
 import kotlinx.coroutines.runBlocking
 
 fun initCourseList(repo: Repository): List<Course> = runBlocking {
-    if (repo.getCourses().isEmpty()) { // Check if the database is empty
+    if (repo.getCourses().isEmpty()) {
         val courses = listOf(
             Course(name = "Spanish"),
             Course(name = "French"),
@@ -16,7 +16,6 @@ fun initCourseList(repo: Repository): List<Course> = runBlocking {
         courses.forEach { course ->
             repo.insertCourse(course)
         }
-
         courses
     } else {
         emptyList()

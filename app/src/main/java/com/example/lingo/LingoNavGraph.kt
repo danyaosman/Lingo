@@ -9,11 +9,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.NavHost
-import com.example.lingo.room.Question
 import androidx.compose.runtime.*
 import com.example.lingo.userInterface.HomeScreen
 import com.example.lingo.userInterface.HomeViewModel
-import com.example.lingo.userInterface.LevelsScreen
 import com.example.lingo.userInterface.LoginScreen
 import com.example.lingo.userInterface.LoginViewModel
 import com.example.lingo.userInterface.QuestionScreen
@@ -27,7 +25,6 @@ fun LingoNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    val courseIndexState = remember { mutableStateOf(0) }
 
     var startDes by remember { mutableStateOf("Login") }
 

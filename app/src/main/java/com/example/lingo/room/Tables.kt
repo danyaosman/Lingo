@@ -30,10 +30,3 @@ data class Course(
     val id: Int=0,
     val name: String,
 )
-
-@Entity(tableName = "user_courses")
-data class UserCourses(
-    @PrimaryKey
-    val userId:Int,
-    val courseId: Int
-)

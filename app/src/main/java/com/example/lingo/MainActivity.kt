@@ -19,10 +19,9 @@ import kotlinx.coroutines.Dispatchers
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //no singleton design pattern (yet)
+
         val db = LingoDatabase.getDatabase(context = this)
-        // 2. Manual MainViewModel Creation
-        val repo = Repository(db.usersDao(), db.questionDao(), db.courseDao(), db.userCoursesDao())
+        val repo = Repository(db.usersDao(), db.questionDao(), db.courseDao())
         val loginViewModel = LoginViewModel(
             repo,
             ioDispatcher = Dispatchers.IO)
