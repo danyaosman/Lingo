@@ -40,7 +40,6 @@ fun HomeScreen(homeViewModel: HomeViewModel,
                loginViewModel: LoginViewModel,
                navController: NavHostController,
 ) {
-
     val username by loginViewModel.username.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
     val courses by homeViewModel.courses.collectAsStateWithLifecycle()
